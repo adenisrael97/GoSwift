@@ -1,0 +1,25 @@
+<svg width="1024" height="1024" viewBox="0 0 1024 1024" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Maskable variant: FULL-BLEED square background (no rounded corners — the
+       platform applies its own mask). The mark sits inside the ~80% safe zone so
+       circular/squircle masks never clip it. -->
+  <defs>
+    <linearGradient id="bgm" x1="0" y1="0" x2="1024" y2="1024" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#16242F"/>
+      <stop offset="1" stop-color="#0F1923"/>
+    </linearGradient>
+    <linearGradient id="boltm" x1="412" y1="320" x2="652" y2="704" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#FF6B35"/>
+      <stop offset="1" stop-color="#AB3500"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1024" height="1024" fill="url(#bgm)"/>
+
+  <!-- Speed lines (scaled into safe zone) -->
+  <rect x="356" y="556" width="200" height="26" rx="13" fill="#FF6B35" opacity="0.28"/>
+  <rect x="328" y="610" width="150" height="26" rx="13" fill="#FF6B35" opacity="0.16"/>
+
+  <!-- Bolt mark, centered, ~58% of canvas (within the 80% safe zone) -->
+  <path d="M566 320 L412 536 H508 L446 700 L632 474 H532 L600 320 Z"
+        fill="url(#boltm)" stroke="#FF8A5C" stroke-width="5" stroke-linejoin="round"/>
+</svg>

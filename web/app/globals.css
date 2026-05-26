@@ -1,0 +1,98 @@
+@import "tailwindcss";
+
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+:root {
+  --background: #ffffff;
+  --foreground: #0f1923;
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.animate-marquee {
+  animation: marquee 30s linear infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-10px); }
+}
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+/* Dark page background used across landing sections */
+.bg-night {
+  background: #0A1520;
+}
+
+/* Soft surface background used across auth screens */
+.bg-surface {
+  background: #F7F8FA;
+}
+
+/* Hero radial glow */
+.bg-hero-glow {
+  background:
+    radial-gradient(circle at top right, rgba(255,107,53,0.18), transparent 45%),
+    #0A1520;
+}
+
+/* Centered CTA radial glow */
+.bg-cta-glow {
+  background:
+    radial-gradient(circle at center, rgba(255,107,53,0.18), transparent 65%),
+    #0A1520;
+}
+
+@keyframes slide-up {
+  from { transform: translateY(100%); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+
+.animate-slide-up {
+  animation: slide-up 0.35s cubic-bezier(0.32, 0.72, 0, 1) both;
+}
+
+@keyframes progress {
+  0%   { width: 0%; }
+  50%  { width: 100%; }
+  100% { width: 0%; }
+}
+
+@keyframes pulse-dot {
+  0%   { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+  70%  { transform: scale(1);    box-shadow: 0 0 0 6px rgba(16, 185, 129, 0); }
+  100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+}
+
+.pulse-dot {
+  animation: pulse-dot 2s infinite;
+}
+
+/* Admin notification toast — slides in from the right */
+@keyframes slide-in-right {
+  from { transform: translateX(110%); opacity: 0; }
+  to   { transform: translateX(0);    opacity: 1; }
+}
+.animate-slide-in-right {
+  animation: slide-in-right 0.3s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* Progress bar that fully drains over 10 seconds (toast auto-dismiss) */
+@keyframes drain-10s {
+  from { width: 100%; }
+  to   { width: 0%; }
+}
+.animate-drain-10s {
+  animation: drain-10s 10s linear forwards;
+}

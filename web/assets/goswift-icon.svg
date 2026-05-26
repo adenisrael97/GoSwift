@@ -1,0 +1,24 @@
+<svg width="1024" height="1024" viewBox="0 0 1024 1024" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- GoSwift app icon — dark base with an orange speed mark.
+       1024x1024 master; the icon generator rasterizes this to all PWA sizes. -->
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1024" y2="1024" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#16242F"/>
+      <stop offset="1" stop-color="#0F1923"/>
+    </linearGradient>
+    <linearGradient id="bolt" x1="320" y1="220" x2="720" y2="804" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#FF6B35"/>
+      <stop offset="1" stop-color="#AB3500"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1024" height="1024" rx="224" fill="url(#bg)"/>
+
+  <!-- Speed lines -->
+  <rect x="196" y="468" width="300" height="34" rx="17" fill="#FF6B35" opacity="0.30"/>
+  <rect x="156" y="540" width="220" height="34" rx="17" fill="#FF6B35" opacity="0.18"/>
+
+  <!-- Lightning / speed bolt mark -->
+  <path d="M612 196 L356 556 H516 L412 828 L724 452 H556 L668 196 Z"
+        fill="url(#bolt)" stroke="#FF8A5C" stroke-width="6" stroke-linejoin="round"/>
+</svg>

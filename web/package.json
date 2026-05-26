@@ -1,0 +1,39 @@
+{
+  "name": "goswift-web",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "unset __NEXT_PRIVATE_STANDALONE_CONFIG __NEXT_PRIVATE_ORIGIN; next dev",
+    "build": "unset __NEXT_PRIVATE_STANDALONE_CONFIG __NEXT_PRIVATE_ORIGIN; next build",
+    "start": "unset __NEXT_PRIVATE_STANDALONE_CONFIG __NEXT_PRIVATE_ORIGIN; next start",
+    "lint": "eslint",
+    "typecheck": "tsc --noEmit -p jsconfig.json",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "pwa:icons": "node scripts/generate-pwa-icons.mjs",
+    "postinstall": "node scripts/link-lightningcss.js"
+  },
+  "dependencies": {
+    "@supabase/ssr": "^0.10.3",
+    "@supabase/supabase-js": "^2.105.1",
+    "lightningcss": "^1.32.0",
+    "lucide-react": "^1.12.0",
+    "next": "^16.2.6",
+    "pino": "^10.3.1",
+    "react": "19.2.4",
+    "react-dom": "19.2.4",
+    "resend": "^6.12.3",
+    "server-only": "^0.0.1",
+    "zod": "^4.4.3"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.3.0",
+    "@vitest/coverage-v8": "^4.1.6",
+    "babel-plugin-react-compiler": "1.0.0",
+    "eslint": "^9",
+    "eslint-config-next": "^16.2.6",
+    "sharp": "^0.34.5",
+    "tailwindcss": "^4.3.0",
+    "vitest": "^4.1.6"
+  }
+}
