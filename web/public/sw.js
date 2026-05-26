@@ -9,7 +9,7 @@
 //
 // Bump VERSION on any change here so `activate` purges old caches.
 
-const VERSION      = 'goswift-v1';
+const VERSION      = 'goswift-v2';
 const STATIC_CACHE = `static-${VERSION}`;
 const OFFLINE_URL  = '/offline';
 

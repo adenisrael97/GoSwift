@@ -27,6 +27,40 @@ export { supabase };
  * failures and missing sessions collapse into `ok: false` with a populated
  * `body.error`.
  */
+// Hard ceiling on how long any /api/* call may run before we give up. A
+// request that never settles (a stalled connection, a wedged service worker
+// in an installed PWA, a flaky mobile network) would otherwise leave the UI
+// spinning forever. AbortController turns that into a clean, retryable error.
+const REQUEST_TIMEOUT_MS = 20000;
+
+/**
+ * fetch() with a timeout. Aborts after `timeoutMs` so a stuck request rejects
+ * (caught by the callers below) instead of hanging indefinitely.
+ */
+async function fetchWithTimeout(path, init, timeoutMs = REQUEST_TIMEOUT_MS) {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), timeoutMs);
+  try {
+    return await fetch(path, { ...init, signal: controller.signal });
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
+/** Map a thrown fetch error to the standard envelope, distinguishing timeouts. */
+function networkErrorEnvelope(err) {
+  const timedOut = err?.name === 'AbortError';
+  return {
+    ok: false,
+    status: 0,
+    body: {
+      error: timedOut
+        ? 'The request timed out. Please check your connection and try again.'
+        : 'Network error',
+    },
+  };
+}
+
 export async function authedFetch(path, init = {}) {
   let session = null;
   try {
@@ -40,7 +74,7 @@ export async function authedFetch(path, init = {}) {
   }
 
   try {
-    const res = await fetch(path, {
+    const res = await fetchWithTimeout(path, {
       ...init,
       headers: {
         'Content-Type':  'application/json',
@@ -50,8 +84,8 @@ export async function authedFetch(path, init = {}) {
     });
     const body = await res.json().catch(() => ({}));
     return { ok: res.ok, status: res.status, body };
-  } catch {
-    return { ok: false, status: 0, body: { error: 'Network error' } };
+  } catch (err) {
+    return networkErrorEnvelope(err);
   }
 }
 
@@ -75,7 +109,7 @@ export async function anonymousFetch(path, init = {}) {
   }
 
   try {
-    const res = await fetch(path, {
+    const res = await fetchWithTimeout(path, {
       ...init,
       headers: {
         'Content-Type': 'application/json',
@@ -85,7 +119,7 @@ export async function anonymousFetch(path, init = {}) {
     });
     const body = await res.json().catch(() => ({}));
     return { ok: res.ok, status: res.status, body };
-  } catch {
-    return { ok: false, status: 0, body: { error: 'Network error' } };
+  } catch (err) {
+    return networkErrorEnvelope(err);
   }
 }

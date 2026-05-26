@@ -59,8 +59,9 @@ export default function RegisterForm() {
       });
 
       if (status === 0) {
-        // fetch() threw — no connection to the server at all
-        setError("Connection failed. Please check your network and try again.");
+        // fetch() threw or timed out — no usable response from the server.
+        // Prefer the specific message (e.g. timeout) when the client set one.
+        setError(body?.error ?? "Connection failed. Please check your network and try again.");
         return;
       }
       if (!ok) {

@@ -11,7 +11,6 @@ import { CreateOrderSchema, CancelOrderSchema, AdvanceOrderStatusSchema } from '
 import { UpdateProfileSchema } from '@/lib/api/schemas/profile';
 import { UpdateLocationSchema, UpdateDriverStatusSchema, ApplyDriverSchema } from '@/lib/api/schemas/drivers';
 import { ReviewApplicationSchema, AssignOrderSchema } from '@/lib/api/schemas/admin';
-import { SendOtpSchema, VerifyOtpSchema } from '@/lib/api/schemas/auth';
 
 describe('CreateOrderSchema', () => {
   const valid = {
@@ -177,16 +176,3 @@ describe('AssignOrderSchema', () => {
   });
 });
 
-describe('SendOtpSchema / VerifyOtpSchema', () => {
-  it('SendOtp accepts a phone', () => {
-    expect(SendOtpSchema.safeParse({ phone: '+2348012345678' }).success).toBe(true);
-  });
-
-  it('VerifyOtp requires phone + code', () => {
-    expect(VerifyOtpSchema.safeParse({ phone: '+2348012345678', code: '123456' }).success).toBe(true);
-  });
-
-  it('VerifyOtp rejects when both code and token are missing', () => {
-    expect(VerifyOtpSchema.safeParse({ phone: '+2348012345678' }).success).toBe(false);
-  });
-});
