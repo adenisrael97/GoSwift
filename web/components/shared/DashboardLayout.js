@@ -80,6 +80,7 @@ function SidebarLinks({ items, currentPath, onNavigate }) {
   );
 }
 
+/** @param {{ onNavigate?: () => void }} props */
 function CustomerModeLink({ onNavigate }) {
   return (
     <div className="px-3 pb-3">

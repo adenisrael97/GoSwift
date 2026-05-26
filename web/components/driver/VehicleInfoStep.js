@@ -23,6 +23,12 @@ function FieldError({ msg }) {
   return <p className="mt-1.5 text-xs font-medium text-red-500">{msg}</p>;
 }
 
+/**
+ * @param {object} props
+ * @param {Record<string, any>} props.formData
+ * @param {(field: string, value: any) => void} props.onChange
+ * @param {Record<string, any>} [props.errors]
+ */
 export default function VehicleInfoStep({ formData, onChange, errors = {} }) {
   return (
     <section className="space-y-8">

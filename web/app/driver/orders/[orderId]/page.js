@@ -88,7 +88,10 @@ function rowToOrder(data) {
 }
 
 export default function DriverOrderDetailPage() {
-  const { orderId }                    = useParams();
+  const { orderId: orderIdParam }      = useParams();
+  // useParams() returns string | string[] | undefined; this is a single
+  // dynamic segment, so normalise to a plain string for the order helpers.
+  const orderId = Array.isArray(orderIdParam) ? orderIdParam[0] : (orderIdParam ?? "");
   const router                         = useRouter();
   const { user, loading: authLoading } = useAuthGuard({ requiredRole: 'driver' });
   const [order,       setOrder]       = useState(null);

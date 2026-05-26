@@ -37,11 +37,13 @@ export default function InstallPrompt() {
 
     const standalone =
       window.matchMedia('(display-mode: standalone)').matches ||
-      window.navigator.standalone === true;
+      // navigator.standalone is a non-standard iOS Safari flag (not in lib.dom).
+      /** @type {any} */ (window.navigator).standalone === true;
     if (standalone || recentlyDismissed()) return;
 
     const ios = /ipad|iphone|ipod/.test(window.navigator.userAgent.toLowerCase()) &&
-                !window.MSStream;
+                // MSStream: legacy IE/Edge global used to exclude old Windows Phones.
+                !(/** @type {any} */ (window).MSStream);
 
     if (ios) {
       // eslint-disable-next-line react-hooks/set-state-in-effect

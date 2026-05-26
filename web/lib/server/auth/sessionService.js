@@ -230,6 +230,7 @@ export async function linkDriverAndReadRole(userId, phone) {
     // no approved unlinked application — normal for regular users
   }
 
+  /** @type {'customer'|'driver'|'admin'} */
   let role = "customer";
   let profileName = "";
   try {
