@@ -14,6 +14,18 @@ const nextConfig = {
   // VS Code on fd exhaustion. Keep Turbopack rooted at `web/` and let
   // it resolve `../shared/` through the standard parent-directory lookup.
   outputFileTracingRoot: path.join(__dirname, '..'),
+  // Stamp every build with an identity the client can read. On Vercel this is
+  // the deployed commit SHA; locally it falls back to 'dev'. The client
+  // compares this baked-in value against /api/version (read fresh at runtime)
+  // to detect when it is running stale code after a new deploy — the
+  // "version kill-switch" that auto-recovers installed PWAs. See
+  // components/pwa/ServiceWorkerRegister.js.
+  env: {
+    NEXT_PUBLIC_BUILD_ID:
+      process.env.VERCEL_GIT_COMMIT_SHA ||
+      process.env.NEXT_PUBLIC_BUILD_ID ||
+      'dev',
+  },
   images: {
     remotePatterns: [
       {
