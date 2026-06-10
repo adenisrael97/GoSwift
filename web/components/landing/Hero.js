@@ -3,26 +3,38 @@ import Image from "next/image";
 import Link from "next/link";
 
 const stats = [
-  { value: "15m", label: "Avg Pickup" },
+  { value: "15m",  label: "Avg Pickup" },
   { value: "50k+", label: "Deliveries" },
-  { value: "4.9/5", label: "Rating" },
-  { value: "2k+", label: "Drivers" },
+  { value: "4.9/5",label: "Rating" },
+  { value: "2k+",  label: "Drivers" },
 ];
 
 export default function Hero() {
   return (
-    <section className="bg-hero-glow relative overflow-hidden pt-20 pb-32 px-6">
-      {/* Decorative blobs */}
-      <div className="pointer-events-none absolute -top-32 -left-32 w-[500px] h-[500px] rounded-full bg-orange-500/10 blur-[120px]" />
+    <section className="relative overflow-hidden min-h-[90vh] flex items-center pt-20">
+      {/* Background image */}
+      <Image
+        src="/LandingpageImage/Heroimage.jpg"
+        alt="GoSwift logistics operations"
+        fill
+        className="object-cover object-center"
+        priority
+      />
 
-      <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-16 items-center relative z-10">
-        {/* Left: Copy */}
-        <div className="space-y-8">
-          {/* Badge */}
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-white/10 border border-white/20 rounded-full">
+      {/* Gradient overlays — left-heavy so text stays readable, right side reveals photo */}
+      <div className="absolute inset-0 bg-linear-to-r from-[#0A1520]/95 via-[#0A1520]/80 to-[#0A1520]/30" />
+      <div className="absolute inset-0 bg-linear-to-t from-[#0A1520]/80 via-transparent to-transparent" />
+
+      {/* Orange accent glow */}
+      <div className="pointer-events-none absolute -top-32 -left-32 w-125 h-125 rounded-full bg-orange-500/15 blur-[120px]" />
+
+      <div className="relative z-10 max-w-7xl mx-auto px-6 py-24 w-full">
+        <div className="max-w-2xl space-y-8">
+          {/* Location badge */}
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-white/10 border border-white/20 rounded-full backdrop-blur-sm">
             <span className="w-2 h-2 rounded-full bg-orange-500 animate-pulse" />
             <span className="text-white text-[10px] font-bold tracking-widest uppercase">
-              Now operating in Lagos, Abuja &amp; PH
+              GoSwift Logistics now in Lagos, Abuja, and Ibadan
             </span>
           </div>
 
@@ -36,7 +48,7 @@ export default function Hero() {
           {/* Sub-headline */}
           <p className="text-slate-300 text-base leading-relaxed max-w-lg">
             Experience the fastest on-demand logistics network in Nigeria. From
-            documents to heavy cargo, we move it with precision.
+            documents to heavy cargo, we move it with precision and care.
           </p>
 
           {/* CTAs */}
@@ -49,7 +61,7 @@ export default function Hero() {
             </Link>
             <Link
               href="/register/driver"
-              className="inline-flex items-center justify-center gap-2 bg-white/5 border border-white/15 text-white font-bold text-sm px-8 py-4 rounded-xl hover:bg-white/10 transition-all active:scale-95"
+              className="inline-flex items-center justify-center gap-2 bg-white/5 border border-white/15 text-white font-bold text-sm px-8 py-4 rounded-xl hover:bg-white/10 transition-all active:scale-95 backdrop-blur-sm"
             >
               Become a Driver <ArrowRight size={16} />
             </Link>
@@ -67,22 +79,6 @@ export default function Hero() {
                 </div>
               </div>
             ))}
-          </div>
-        </div>
-
-        {/* Right: Image */}
-        <div className="relative">
-          <div className="absolute -top-16 -right-16 w-80 h-80 bg-orange-500/20 blur-[100px] rounded-full pointer-events-none" />
-          <div className="relative z-10 rounded-3xl overflow-hidden shadow-2xl border border-white/10">
-            <Image
-              src="https://lh3.googleusercontent.com/aida-public/AB6AXuDhcTOLSyVfehqrSQfbnwDHiLw_zZudCzmUAqlxcOfejn5ww0-Wc4GKmJgaCkPhlv4K8KLZ-pnM3OvmpDHjmcGoDOOg2HGgkjiqXSpNaUBKpIYH5Y1ylqa9SAqZQPuZTQAB0KZq8tITMk23ABSP6v3XSFW5Zt0zQVYC043Hsv0XGXDX60N25nQxjnCDnNx4lMe0l3_iOTDIVYiHzfasmIae9udVwTgwJsZyQDAwO5gJAwCJur2GGcdbMXPisBPa2Jm1XViWUdlvTwtt"
-              alt="GoSwift logistics — courier with tablet in front of delivery vans"
-              width={700}
-              height={500}
-              className="w-full h-auto object-cover"
-              priority
-              unoptimized
-            />
           </div>
         </div>
       </div>
