@@ -54,22 +54,20 @@ export default function Features() {
           <div className="grid grid-cols-2 gap-4">
             <div className="mt-12 rounded-2xl overflow-hidden shadow-lg">
               <Image
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuAraq1W_hOO_yp6DOjYL_zunTCerguyfcFNVDGiKkBS3lOgxDmqgNMEPe6kfyvj3t0CRACkDxv3rkH1eyn9Si8lOwbQeIJKIpR1DSO-aKKuUzrB2iMYgoy2_NSK70p_AS_MmVnFrHiXtfrn7i77HYAbqTYlZu6wTNZ2S7HQ3pLanmuq39sRi6HorLi39DwsNE1qiMNSPWGavVvKlJZ0xJXHmtuhMDSeGimghtatLm5L_33oPrlYn4htIXM8fvOSp7dhe_qculJ-vxXI"
-                alt="Courier delivering package"
+                src="/Become/WhyChooseUs/Trust.jpeg"
+                alt="GoSwift — trusted and insured deliveries"
                 width={320}
                 height={280}
                 className="w-full h-full object-cover"
-                unoptimized
               />
             </div>
             <div className="rounded-2xl overflow-hidden shadow-lg">
               <Image
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuAqcsLdWlHCPxh8bTLzrcCHwlT_YxDHgMuO8WrZuzrLAjIXrxdBXfHWIJNDeMPU9CNrlZShQ5F_N3sMact3eErcSDDnfwKHQzmonruz9JqjUCeTn_qelehcNIG8BcVH6IS181D5XpmJaoeZKLNRB10NyeOqiehatoSfX22LbPSwv6AEsWx57T5bcdM3YoXhWc8bHFK18oo0ZRe7RlpwSpd0txShmwSTeKpWK7ko_AVDTuaOQgWtWKrVro4ujlD8aoBFNuK2GTLlw"
-                alt="GoSwift logistics operations"
+                src="/Become/WhyChooseUs/24 support.jpeg"
+                alt="GoSwift — 24/7 customer support"
                 width={320}
                 height={280}
                 className="w-full h-full object-cover"
-                unoptimized
               />
             </div>
           </div>

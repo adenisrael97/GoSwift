@@ -32,7 +32,7 @@ export default function Hero() {
         <div className="max-w-2xl space-y-8">
           {/* Location badge */}
           <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-white/10 border border-white/20 rounded-full backdrop-blur-sm">
-            <span className="w-2 h-2 rounded-full bg-orange-500 animate-pulse" />
+            <span className="w-2 h-2 rounded-full bg-orange-500" />
             <span className="text-white text-[10px] font-bold tracking-widest uppercase">
               GoSwift Logistics now in Lagos, Abuja, and Ibadan
             </span>
