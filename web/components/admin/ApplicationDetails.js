@@ -1,3 +1,4 @@
+import { User, Bike, FileText, Shield } from 'lucide-react';
 import StatusBadge from "./StatusBadge";
 
 function InfoRow({ label, value }) {
@@ -27,7 +28,7 @@ export default function ApplicationDetails({ application }) {
               {application.name}
             </h1>
             <p className="text-sm text-slate-500 mt-0.5">
-              📍 {application.state}, Nigeria · Delivery Partner Applicant
+              {application.state}, Nigeria · Delivery Partner Applicant
             </p>
           </div>
         </div>
@@ -38,10 +39,10 @@ export default function ApplicationDetails({ application }) {
         {/* Personal info */}
         <section className="bg-white p-6 rounded-xl shadow-sm border border-slate-100">
           <div className="flex items-center gap-2 mb-6">
-            <span className="text-[#ab3500] text-lg">👤</span>
-            <h2 className="text-base font-bold text-[#0F1923]">
-              Personal Info
-            </h2>
+            <div className="w-7 h-7 rounded-lg bg-orange-50 flex items-center justify-center">
+              <User size={15} className="text-[#ab3500]" />
+            </div>
+            <h2 className="text-base font-bold text-[#0F1923]">Personal Info</h2>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
             <InfoRow label="NIN Number" value={application.nin} />
@@ -63,10 +64,10 @@ export default function ApplicationDetails({ application }) {
           <div className="relative z-10">
             <div className="flex items-center justify-between mb-6">
               <div className="flex items-center gap-2">
-                <span className="text-lg">🏍️</span>
-                <h2 className="text-base font-bold text-white">
-                  Vehicle Details
-                </h2>
+                <div className="w-7 h-7 rounded-lg bg-white/10 flex items-center justify-center">
+                  <Bike size={15} className="text-white" />
+                </div>
+                <h2 className="text-base font-bold text-white">Vehicle Details</h2>
               </div>
               <span className="bg-[#ab3500] px-3 py-1 rounded-full text-[10px] font-bold text-white uppercase tracking-widest">
                 Selected
@@ -121,27 +122,43 @@ export default function ApplicationDetails({ application }) {
         {/* Documents */}
         <section className="bg-white p-6 rounded-xl shadow-sm border border-slate-100">
           <div className="flex items-center gap-2 mb-6">
-            <span className="text-[#ab3500] text-lg">📄</span>
+            <div className="w-7 h-7 rounded-lg bg-orange-50 flex items-center justify-center">
+              <FileText size={15} className="text-[#ab3500]" />
+            </div>
             <h2 className="text-base font-bold text-[#0F1923]">Documents</h2>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {[
-              { label: "Driver's License", icon: "🪪" },
-              { label: "Vehicle Insurance", icon: "🛡️" },
-              { label: "NIN Card", icon: "🔍" },
-              { label: "Vehicle Particulars", icon: "📋" },
-            ].map(({ label, icon }) => (
+              { label: "Driver's License", url: application.documents?.license },
+              { label: "NIN Card",         url: application.documents?.ninDoc },
+              { label: "Vehicle Particulars", url: application.documents?.particulars, wide: true },
+            ].map(({ label, url, wide }) => (
               <div
                 key={label}
-                className="aspect-[4/3] rounded-xl border border-slate-200 bg-slate-50 flex flex-col items-center justify-center gap-2 p-4 text-center"
+                className={`aspect-4/3 rounded-xl border bg-slate-50 flex flex-col items-center justify-center gap-2 p-4 text-center ${
+                  wide ? "sm:col-span-2" : ""
+                } ${url ? "border-slate-200" : "border-dashed border-slate-200"}`}
               >
-                <span className="text-3xl">{icon}</span>
+                <div className="w-10 h-10 rounded-xl bg-orange-50 flex items-center justify-center">
+                  <FileText size={20} className="text-[#ab3500]" />
+                </div>
                 <p className="text-[10px] font-bold uppercase tracking-widest text-[#0F1923]">
                   {label}
                 </p>
-                <button className="px-3 py-1.5 bg-white shadow-sm border border-slate-200 rounded-lg text-[11px] font-bold text-[#ab3500] hover:bg-[#ab3500] hover:text-white transition-all">
-                  View
-                </button>
+                {url ? (
+                  <a
+                    href={url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="px-3 py-1.5 bg-white shadow-sm border border-slate-200 rounded-lg text-[11px] font-bold text-[#ab3500] hover:bg-[#ab3500] hover:text-white transition-all"
+                  >
+                    View
+                  </a>
+                ) : (
+                  <span className="text-[10px] font-semibold text-slate-400">
+                    Not uploaded
+                  </span>
+                )}
               </div>
             ))}
           </div>
@@ -150,19 +167,17 @@ export default function ApplicationDetails({ application }) {
         {/* Guarantor */}
         <section className="bg-white p-6 rounded-xl shadow-sm border border-slate-100">
           <div className="flex items-center gap-2 mb-6">
-            <span className="text-[#ab3500] text-lg">⚖️</span>
-            <h2 className="text-base font-bold text-[#0F1923]">
-              Guarantor Information
-            </h2>
+            <div className="w-7 h-7 rounded-lg bg-orange-50 flex items-center justify-center">
+              <Shield size={15} className="text-[#ab3500]" />
+            </div>
+            <h2 className="text-base font-bold text-[#0F1923]">Guarantor Information</h2>
           </div>
           <div className="p-4 rounded-xl bg-slate-50 border border-slate-100">
             <p className="font-bold text-sm text-[#0F1923]">
               {application.guarantor.name || '—'}
             </p>
             <div className="space-y-2 pt-3 mt-3 border-t border-slate-200">
-              <p className="text-xs text-slate-600 flex items-center gap-2">
-                📞 {application.guarantor.phone || '—'}
-              </p>
+              <p className="text-xs text-slate-600">{application.guarantor.phone || '—'}</p>
             </div>
           </div>
         </section>

@@ -71,6 +71,16 @@ export default function OrderForm({ vehicleId, onSuccess }) {
           dropoff={draft.dropoff}
           onPickupChange={(v) => setField('pickup', v)}
           onDropoffChange={(v) => setField('dropoff', v)}
+          // Picking an autocomplete suggestion captures coordinates too — this
+          // is what lets auto-dispatch find the nearest driver for typed
+          // addresses. Manual typing (above) only sets text, matching the
+          // pre-geocoding behaviour and leaving any GPS pin intact.
+          onPickupSelect={({ description, lat, lng }) =>
+            updateDraft({ pickup: description, pickupLat: lat, pickupLng: lng })
+          }
+          onDropoffSelect={({ description, lat, lng }) =>
+            updateDraft({ dropoff: description, dropoffLat: lat, dropoffLng: lng })
+          }
           errors={errors}
         />
 

@@ -1,9 +1,9 @@
 import { Banknote, Package, Clock, TrendingUp } from 'lucide-react';
 
 const iconMap = {
-  banknote: Banknote,
-  package: Package,
-  clock: Clock,
+  banknote: { Icon: Banknote, bg: 'bg-emerald-50', color: 'text-emerald-600' },
+  package:  { Icon: Package,  bg: 'bg-blue-50',    color: 'text-blue-600' },
+  clock:    { Icon: Clock,    bg: 'bg-violet-50',  color: 'text-violet-600' },
 };
 
 /**
@@ -14,13 +14,13 @@ const iconMap = {
  * @param {string} [props.trend]
  */
 export default function DriverStatsCard({ label, value, icon, trend }) {
-  const Icon = iconMap[icon] ?? Banknote;
+  const { Icon, bg, color } = iconMap[icon] ?? iconMap.banknote;
 
   return (
-    <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm">
+    <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition-shadow">
       <div className="flex items-center justify-between mb-4">
-        <div className="w-10 h-10 rounded-xl bg-orange-50 flex items-center justify-center">
-          <Icon size={20} className="text-[#ab3500]" />
+        <div className={`w-10 h-10 rounded-xl ${bg} flex items-center justify-center`}>
+          <Icon size={20} className={color} />
         </div>
         {trend === 'up' && <TrendingUp size={16} className="text-emerald-500" />}
       </div>

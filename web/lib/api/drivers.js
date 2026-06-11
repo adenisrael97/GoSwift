@@ -10,7 +10,7 @@
  * - Realtime subscription factories wrap the channel construction so
  *   driver pages never touch the raw client.
  */
-import { supabase, authedFetch, anonymousFetch } from './client';
+import { supabase, authedFetch, anonymousFetch, authedUpload } from './client';
 
 // ── Reads via /api/driver/* ──────────────────────────────────────────
 
@@ -128,6 +128,20 @@ export function applyAsDriver(payload) {
     method: 'POST',
     body:   JSON.stringify(payload),
   });
+}
+
+/**
+ * POST /api/driver/documents — upload KYC files to the private bucket.
+ *
+ * @param {{ license?: File, nin_doc?: File, particulars?: File }} files
+ * @returns {Promise<{ ok, status, body: { licenseUrl, ninDocUrl, particularsUrl } }>}
+ */
+export function uploadDriverDocuments(files) {
+  const fd = new FormData();
+  for (const field of ['license', 'nin_doc', 'particulars']) {
+    if (files[field] instanceof File) fd.append(field, files[field]);
+  }
+  return authedUpload('/api/driver/documents', fd);
 }
 
 /** POST /api/driver/offers/[id]/accept — first-accept-wins; server returns 409 on race. */

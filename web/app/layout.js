@@ -2,6 +2,7 @@ import "./globals.css";
 import Providers from "@/context/Providers";
 import ServiceWorkerRegister from "@/components/pwa/ServiceWorkerRegister";
 import InstallPrompt from "@/components/pwa/InstallPrompt";
+import WhatsAppButton from "@/components/shared/WhatsAppButton";
 
 export const metadata = {
   title: "GoSwift | Fast & Reliable Logistics Nigeria",
@@ -42,6 +43,7 @@ export default function RootLayout({ children }) {
       </head>
       <body className="antialiased">
         <Providers>{children}</Providers>
+        <WhatsAppButton />
         <ServiceWorkerRegister />
         <InstallPrompt />
       </body>

@@ -42,3 +42,8 @@ supabase/.temp/
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# private project documentation (interview prep, architecture notes)
+PROJECT_KNOWLEDGE_GUIDE.md
+INTERVIEW_PREP_GUIDE.md
+ARCHITECTURE_DOCUMENTATION.md

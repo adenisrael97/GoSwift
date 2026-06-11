@@ -24,10 +24,10 @@ const DOCUMENTS = [
   },
 ];
 
-export default function DocumentUploadStep({ formData, onChange }) {
+export default function DocumentUploadStep({ files, onChange }) {
   const handleFile = (id, e) => {
     const file = e.target.files?.[0];
-    if (file) onChange(id, file.name);
+    if (file) onChange(id, file);
   };
 
   return (
@@ -42,7 +42,7 @@ export default function DocumentUploadStep({ formData, onChange }) {
             className={`relative bg-white border-2 border-dashed rounded-2xl p-8 flex flex-col items-center gap-3 cursor-pointer group transition-all ${
               wide ? "sm:col-span-2" : ""
             } ${
-              formData[id]
+              files[id]
                 ? "border-[#ab3500]/40 bg-[#ab3500]/5"
                 : "border-slate-200 hover:border-[#ab3500]"
             }`}
@@ -60,9 +60,9 @@ export default function DocumentUploadStep({ formData, onChange }) {
               </p>
               <p className="text-xs text-slate-400 mt-1">{description}</p>
             </div>
-            {formData[id] ? (
-              <span className="text-[10px] font-bold text-[#ab3500] bg-[#ab3500]/10 px-3 py-1 rounded-full">
-                ✓ {formData[id]}
+            {files[id] ? (
+              <span className="text-[10px] font-bold text-[#ab3500] bg-[#ab3500]/10 px-3 py-1 rounded-full max-w-full truncate">
+                ✓ {files[id].name}
               </span>
             ) : (
               <span className="text-2xl text-slate-300 group-hover:text-[#ab3500] transition-colors leading-none">

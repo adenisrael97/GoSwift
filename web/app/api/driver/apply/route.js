@@ -56,6 +56,9 @@ export const POST = withLogger('driver.apply.create', async (request) => {
       vehicle_color:   body.vehicleColor   || null,
       guarantor_name:  body.guarantorName  || null,
       guarantor_phone: body.guarantorPhone || null,
+      license_url:     body.licenseUrl     || null,
+      nin_doc_url:     body.ninDocUrl      || null,
+      particulars_url: body.particularsUrl || null,
       status:          'pending',
       submitted_at:    new Date().toISOString(),
     })

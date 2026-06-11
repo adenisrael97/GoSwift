@@ -51,5 +51,8 @@ export function mapDbApplication(row, index = 0) {
       name:  row.guarantor_name  ?? '',
       phone: row.guarantor_phone ?? '',
     },
+    // Signed URLs for the private KYC documents, attached server-side by
+    // GET /api/admin/applications/[id]. null when a document wasn't uploaded.
+    documents: row.documents ?? { license: null, ninDoc: null, particulars: null },
   };
 }

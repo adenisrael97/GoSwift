@@ -81,6 +81,7 @@ export {
   setDriverOnline,
   postDriverLocation,
   applyAsDriver,
+  uploadDriverDocuments,
   acceptOffer,
   rejectOffer,
   releaseOrder,
@@ -106,7 +107,12 @@ export {
   subscribeAdminApplications,
 } from './admin';
 
-// Payments + Notifications are placeholders today — see the respective
-// files. Re-exported as namespaces so the barrel surface is uniform.
-export * as payments      from './payments';
+// Geocoding (address autocomplete)
+export { suggestAddress, resolvePlace } from './geocode';
+
+// Payments
+export { initializePayment, verifyPayment } from './payments';
+export * as payments from './payments';
+
+// Notifications placeholder
 export * as notifications from './notifications';

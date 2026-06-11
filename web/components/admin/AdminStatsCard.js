@@ -2,8 +2,8 @@ import { ShoppingCart, Radar, Users, Banknote, TrendingUp } from 'lucide-react';
 
 const iconMap = {
   'shopping-cart': { Icon: ShoppingCart, bg: 'bg-orange-50',  color: 'text-orange-600' },
-  'radar':         { Icon: Radar,        bg: 'bg-slate-50',   color: 'text-slate-600' },
-  'users':         { Icon: Users,        bg: 'bg-slate-50',   color: 'text-slate-600' },
+  'radar':         { Icon: Radar,        bg: 'bg-blue-50',    color: 'text-blue-600' },
+  'users':         { Icon: Users,        bg: 'bg-violet-50',  color: 'text-violet-600' },
   'banknote':      { Icon: Banknote,     bg: 'bg-emerald-50', color: 'text-emerald-600' },
 };
 
@@ -35,9 +35,9 @@ export default function AdminStatsCard({ label, value, icon, badge }) {
   const { Icon, bg, color } = iconMap[icon] ?? iconMap['banknote'];
 
   return (
-    <div className="bg-white p-4 md:p-6 rounded-2xl border border-slate-100 shadow-[0_1px_3px_rgba(0,0,0,0.06),0_4px_16px_rgba(0,0,0,0.04)]">
+    <div className="bg-white p-4 md:p-6 rounded-2xl border border-slate-100 shadow-[0_1px_3px_rgba(0,0,0,0.06),0_4px_16px_rgba(0,0,0,0.04)] hover:shadow-[0_4px_12px_rgba(0,0,0,0.08),0_8px_24px_rgba(0,0,0,0.06)] transition-shadow">
       <div className="flex justify-between items-start mb-4">
-        <div className={`p-2 ${bg} ${color} rounded-xl`}>
+        <div className={`p-2.5 ${bg} ${color} rounded-xl`}>
           <Icon size={20} />
         </div>
         <BadgeChip badge={badge} />

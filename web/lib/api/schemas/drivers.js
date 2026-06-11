@@ -24,6 +24,11 @@ export const ApplyDriverSchema = z.object({
   vehicleColor:   z.string().trim().max(50).optional().nullable(),
   guarantorName:  z.string().trim().max(100).optional().nullable(),
   guarantorPhone: z.string().trim().max(20).optional().nullable(),
+  // Storage object paths returned by POST /api/driver/documents (optional —
+  // documents are not required at submission time).
+  licenseUrl:     z.string().trim().max(400).optional().nullable(),
+  ninDocUrl:      z.string().trim().max(400).optional().nullable(),
+  particularsUrl: z.string().trim().max(400).optional().nullable(),
 });
 
 /** PATCH /api/driver/location body. */

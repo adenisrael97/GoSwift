@@ -88,7 +88,7 @@ function ApplicationToast({ notification, onDismiss }) {
 // ── Page ─────────────────────────────────────────────────────────────
 
 export default function AdminDashboardPage() {
-  const { user, loading: authLoading } = useAuthGuard({ requiredRole: 'admin' });
+  const { user, role, loading: authLoading } = useAuthGuard({ requiredRole: 'admin' });
   const [stats,        setStats]        = useState([]);
   const [liveOrders,   setLiveOrders]   = useState([]);
   const [pendingCount, setPendingCount] = useState(0);
@@ -110,7 +110,7 @@ export default function AdminDashboardPage() {
   }, []);
 
   useEffect(() => {
-    if (!user) return;
+    if (!user || role !== 'admin') return;
     let cancelled = false;
 
     async function refetchOrdersAndStats() {

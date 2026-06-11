@@ -213,19 +213,21 @@ function MobileBottomNav({ items, currentPath }) {
   // Show first 4 items on bottom nav for thumb reach
   const visible = items.slice(0, 4);
   return (
-    <nav className="md:hidden fixed bottom-0 left-0 w-full bg-white/95 backdrop-blur-xl border-t border-slate-100 px-4 pb-5 pt-2 flex justify-between items-center z-30">
+    <nav className="md:hidden fixed bottom-0 left-0 w-full bg-white/95 backdrop-blur-xl border-t border-slate-100 px-2 pb-5 pt-2 flex justify-between items-center z-30">
       {visible.map(({ label, icon: Icon, href }) => {
         const active = isActive(currentPath, href);
         return (
           <Link
             key={href}
             href={href}
-            className={`flex flex-col items-center gap-0.5 px-2 py-1.5 rounded-xl transition-all flex-1 ${
-              active ? 'text-[#ab3500]' : 'text-slate-400 hover:text-[#ab3500]'
+            className={`flex flex-col items-center gap-1 px-3 py-2 rounded-xl transition-all flex-1 ${
+              active
+                ? 'bg-orange-50 text-[#ab3500]'
+                : 'text-slate-400 hover:text-[#ab3500] hover:bg-slate-50'
             }`}
           >
-            <Icon size={20} />
-            <span className="text-[10px] font-bold uppercase tracking-wider">{label}</span>
+            <Icon size={20} strokeWidth={active ? 2.5 : 2} />
+            <span className="text-xs font-bold uppercase tracking-wider leading-none">{label}</span>
           </Link>
         );
       })}

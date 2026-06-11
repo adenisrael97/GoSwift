@@ -107,6 +107,19 @@ export async function dispatchOrder(orderId, {
   });
 
   if (error) {
+    // When pickup coordinates are missing the RPC cannot compute distance and
+    // raises order_missing_pickup_coords. Manually bumping dispatch_attempts
+    // ensures this order surfaces to the admin queue after MAX_DISPATCH_ATTEMPTS
+    // rather than sitting at 0 forever (the RPC transaction rolls back before it
+    // can increment the counter itself).
+    if (error.message?.includes('order_missing_pickup_coords')) {
+      console.warn(`[dispatchOrder] orderId=${orderId} — missing pickup coordinates, bumping attempts for admin queue`);
+      await admin
+        .from('orders')
+        .update({ dispatch_attempts: (orderState.dispatch_attempts ?? 0) + 1 })
+        .eq('id', orderId);
+      return { offered: false, reason: 'missing_pickup_coords' };
+    }
     console.warn(`[dispatchOrder] tier=${tierNumber} radius=${radiusKm}km rpc error:`, error.message);
     return { offered: false, reason: error.message };
   }

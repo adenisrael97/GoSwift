@@ -80,20 +80,20 @@ export default function DataTable({
         <div className="overflow-x-auto">
           <table className="w-full text-left min-w-180">
             <thead>
-              <tr className="bg-slate-50/60 text-slate-400 text-[10px] font-bold uppercase tracking-widest">
+              <tr className="bg-slate-50 text-slate-500 text-xs font-bold uppercase tracking-widest border-b border-slate-100">
                 {columns.map((col) => (
                   <th
                     key={col.key}
-                    className={`px-5 md:px-6 py-4 ${col.align === 'right' ? 'text-right' : ''}`}
+                    className={`px-5 md:px-6 py-3.5 ${col.align === 'right' ? 'text-right' : ''}`}
                   >
                     {col.label}
                   </th>
                 ))}
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-50">
+            <tbody className="divide-y divide-slate-100">
               {filtered.map((row) => (
-                <tr key={row.id} className="hover:bg-slate-50/50 transition-colors">
+                <tr key={row.id} className="hover:bg-slate-50 transition-colors">
                   {columns.map((col) => (
                     <td
                       key={col.key}

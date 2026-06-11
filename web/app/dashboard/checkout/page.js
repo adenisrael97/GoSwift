@@ -6,7 +6,7 @@ import { Bell, ShieldCheck, AlertCircle } from 'lucide-react';
 
 import { useOrder } from '@/context/OrderContext';
 import { formatCurrency } from '@/lib/utils/format';
-import { createOrder } from '@/lib/api';
+import { createOrder, initializePayment } from '@/lib/api';
 import { DEFAULT_VEHICLE_PRICING } from '@/lib/pricing/vehicleRates';
 import { usePricing } from '@/lib/pricing/usePricing';
 
@@ -81,7 +81,7 @@ function ProcessingOverlay() {
 
 export default function CheckoutPage() {
   const router = useRouter();
-  const { draft, isHydrated, confirmOrder } = useOrder();
+  const { draft, isHydrated, confirmOrder, resetDraft } = useOrder();
   const pricing = usePricing();
 
   const [paymentMethod, setPaymentMethod] = useState('card');
@@ -101,32 +101,56 @@ export default function CheckoutPage() {
 
   const hasDraft = isHydrated && draft.pickup && draft.dropoff;
 
+  // Shared order fields — same shape for both the existing route and the
+  // new Paystack initialize route (minus paymentMethod, handled per-branch).
+  function buildOrderPayload() {
+    return {
+      pickup:       draft.pickup,
+      pickupLat:    draft.pickupLat,
+      pickupLng:    draft.pickupLng,
+      dropoff:      draft.dropoff,
+      dropoffLat:   draft.dropoffLat,
+      dropoffLng:   draft.dropoffLng,
+      packageType:  draft.packageType,
+      vehicleType:  draft.vehicle ?? 'car',
+      weight:       draft.weight,
+      note:         draft.note,
+      fareEstimate: draft.fareEstimate,
+      senderPhone:  draft.senderPhone  || undefined,
+      receiverName: draft.receiverName  || undefined,
+      receiverPhone: draft.receiverPhone || undefined,
+    };
+  }
+
   async function handlePayment() {
     if (!hasDraft || !paymentMethod) return;
 
     setErrorMsg('');
     setIsProcessing(true);
 
+    // ── Card: Paystack hosted checkout ──────────────────────────────────
+    if (paymentMethod === 'card') {
+      const { ok, body } = await initializePayment(buildOrderPayload());
+
+      if (!ok) {
+        setErrorMsg(body?.error ?? 'Payment initialisation failed. Please try again.');
+        setIsProcessing(false);
+        return;
+      }
+
+      // Draft cleared so the user can't submit a duplicate on back-navigation.
+      setHasSubmitted(true);
+      resetDraft();
+      // Full browser navigation to Paystack's hosted checkout.
+      // router.push would be intercepted by Next.js; we need a real redirect.
+      window.location.href = body.authorizationUrl;
+      return;
+    }
+
+    // ── Cash / Transfer: existing direct-confirmation flow ──────────────
     const { ok, body } = await createOrder(
-      {
-        pickup:       draft.pickup,
-        pickupLat:    draft.pickupLat,
-        pickupLng:    draft.pickupLng,
-        dropoff:      draft.dropoff,
-        dropoffLat:   draft.dropoffLat,
-        dropoffLng:   draft.dropoffLng,
-        packageType:  draft.packageType,
-        vehicleType:  draft.vehicle ?? 'car',
-        weight:       draft.weight,
-        note:         draft.note,
-        fareEstimate: draft.fareEstimate,
-        paymentMethod,
-        senderPhone:   draft.senderPhone,
-        receiverName:  draft.receiverName,
-        receiverPhone: draft.receiverPhone,
-      },
-      // Stable per-draft key — a retried Pay click (network glitch,
-      // app backgrounded mid-request) returns the original order.
+      { ...buildOrderPayload(), paymentMethod },
+      // Stable per-draft key — a retried Pay click returns the original order.
       { idempotencyKey: draft.idempotencyKey ?? undefined },
     );
 
@@ -139,11 +163,10 @@ export default function CheckoutPage() {
 
     setHasSubmitted(true);
     confirmOrder({ paymentMethod, id: body.order.id });
-    setSuccessMsg('Payment confirmed! Redirecting...');
+    setSuccessMsg('Order placed! Redirecting...');
     redirectTimerRef.current = setTimeout(() => router.push('/dashboard'), 1500);
-    // Overlay stays up through the redirect on success — releasing it
-    // exposes the NoOrderFallback because confirmOrder() has just emptied
-    // the draft.
+    // Overlay stays up through the redirect — releasing it exposes the
+    // NoOrderFallback because confirmOrder() has just emptied the draft.
   }
 
   if (!isHydrated) return <HydrationSpinner />;

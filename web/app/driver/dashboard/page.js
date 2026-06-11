@@ -47,7 +47,7 @@ const PRO_TIP = {
  */
 export default function DriverDashboardPage() {
   const router = useRouter();
-  const { user, loading: authLoading } = useAuthGuard({ requiredRole: 'driver' });
+  const { user, role, loading: authLoading } = useAuthGuard({ requiredRole: 'driver' });
 
   // ── Dashboard data ───────────────────────────────────────────
   const [dashData,    setDashData]    = useState(null);
@@ -86,7 +86,7 @@ export default function DriverDashboardPage() {
 
   // ── Load dashboard data ──────────────────────────────────────
   useEffect(() => {
-    if (!user) return;
+    if (!user || role !== 'driver') return;
     let cancelled = false;
 
     async function load() {
@@ -121,7 +121,7 @@ export default function DriverDashboardPage() {
 
   // ── Realtime: subscribe to dispatch_offers for this driver ───
   useEffect(() => {
-    if (!user) return;
+    if (!user || role !== 'driver') return;
 
     const channel = subscribeDriverOffers(user.id, (payload) => {
       if (payload.eventType === 'INSERT' && payload.new.status === 'offered') {

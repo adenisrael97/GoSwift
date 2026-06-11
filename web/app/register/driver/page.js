@@ -6,7 +6,7 @@ import Link from "next/link";
 import { Bell, HelpCircle, ShieldCheck } from "lucide-react";
 
 import { useAuth } from "@/context/AuthContext";
-import { applyAsDriver } from "@/lib/api";
+import { applyAsDriver, uploadDriverDocuments } from "@/lib/api";
 import StepIndicator from "@/components/driver/StepIndicator";
 import PersonalInfoStep from "@/components/driver/PersonalInfoStep";
 import VehicleInfoStep from "@/components/driver/VehicleInfoStep";
@@ -111,6 +111,13 @@ export default function DriverRegistrationPage() {
   const [isLoading,   setIsLoading]   = useState(false);
   const [submitError, setSubmitError] = useState("");
   const [stepErrors,  setStepErrors]  = useState({});
+
+  // Selected document File objects. Kept OUT of `formData` on purpose: formData
+  // is JSON-serialised into the per-user draft (localStorage), and File objects
+  // don't survive that round-trip. These live only for the current session.
+  const [docFiles, setDocFiles] = useState({
+    license: null, nin_doc: null, particulars: null,
+  });
 
   // Guards so each one-time effect only runs once per mount.
   const draftLoadedRef = useRef(false);
@@ -223,7 +230,27 @@ export default function DriverRegistrationPage() {
     setSubmitError("");
 
     try {
-      const { ok, status, body } = await applyAsDriver(formData);
+      // Upload any selected documents first, then attach their storage paths
+      // to the application. Uploads are optional — skip the call entirely when
+      // nothing was selected so the existing no-document flow is unchanged.
+      let docPaths = {};
+      const hasDocs = docFiles.license || docFiles.nin_doc || docFiles.particulars;
+      if (hasDocs) {
+        const up = await uploadDriverDocuments(docFiles);
+        if (!up.ok) {
+          setSubmitError(
+            up.body?.error ?? "Could not upload your documents. Please try again."
+          );
+          return;
+        }
+        docPaths = {
+          licenseUrl:     up.body.licenseUrl,
+          ninDocUrl:      up.body.ninDocUrl,
+          particularsUrl: up.body.particularsUrl,
+        };
+      }
+
+      const { ok, status, body } = await applyAsDriver({ ...formData, ...docPaths });
 
       if (!ok || !body?.applicationId) {
         setSubmitError(
@@ -361,8 +388,10 @@ export default function DriverRegistrationPage() {
               )}
               {step === 2 && (
                 <DocumentUploadStep
-                  formData={formData}
-                  onChange={handleChange}
+                  files={docFiles}
+                  onChange={(id, file) =>
+                    setDocFiles((prev) => ({ ...prev, [id]: file }))
+                  }
                 />
               )}
             </div>

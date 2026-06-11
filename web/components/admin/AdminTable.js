@@ -49,17 +49,17 @@ export default function AdminTable({ orders }) {
       <div className="overflow-x-auto">
         <table className="w-full text-left min-w-180">
           <thead>
-            <tr className="bg-slate-50/60 text-slate-400 text-[10px] font-bold uppercase tracking-widest">
-              <th className="px-5 md:px-6 py-4">Order #</th>
-              <th className="px-5 md:px-6 py-4">Customer</th>
-              <th className="px-5 md:px-6 py-4">Route</th>
-              <th className="px-5 md:px-6 py-4">Status</th>
-              <th className="px-5 md:px-6 py-4">Driver</th>
-              <th className="px-5 md:px-6 py-4">Time</th>
-              <th className="px-5 md:px-6 py-4 text-right">Action</th>
+            <tr className="bg-slate-50 text-slate-500 text-xs font-bold uppercase tracking-widest border-b border-slate-100">
+              <th className="px-5 md:px-6 py-3.5">Order #</th>
+              <th className="px-5 md:px-6 py-3.5">Customer</th>
+              <th className="px-5 md:px-6 py-3.5">Route</th>
+              <th className="px-5 md:px-6 py-3.5">Status</th>
+              <th className="px-5 md:px-6 py-3.5">Driver</th>
+              <th className="px-5 md:px-6 py-3.5">Time</th>
+              <th className="px-5 md:px-6 py-3.5 text-right">Action</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-slate-50">
+          <tbody className="divide-y divide-slate-100">
             {filtered.length === 0 ? (
               <tr>
                 <td colSpan={7} className="px-6 py-10 text-center text-slate-400 text-sm">
@@ -68,12 +68,12 @@ export default function AdminTable({ orders }) {
               </tr>
             ) : (
               filtered.map((order) => (
-                <tr key={order.id} className="hover:bg-slate-50/50 transition-colors">
+                <tr key={order.id} className="hover:bg-slate-50 transition-colors">
                   <td className="px-5 md:px-6 py-4 font-bold text-[#0F1923] text-sm">
                     #{order.id}
                   </td>
                   <td className="px-5 md:px-6 py-4 text-sm text-slate-700">{order.customer}</td>
-                  <td className="px-5 md:px-6 py-4 text-xs text-slate-400">{order.route}</td>
+                  <td className="px-5 md:px-6 py-4 text-xs text-slate-600">{order.route}</td>
                   <td className="px-5 md:px-6 py-4">
                     <Badge label={order.status} variant={order.status} />
                   </td>

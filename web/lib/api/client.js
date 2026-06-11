@@ -90,6 +90,37 @@ export async function authedFetch(path, init = {}) {
 }
 
 /**
+ * Authenticated multipart upload — same `{ ok, status, body }` envelope as
+ * authedFetch, but sends a FormData body. Crucially it does NOT set a
+ * Content-Type header: the browser must add `multipart/form-data` with the
+ * correct boundary itself, which it only does when Content-Type is absent.
+ */
+export async function authedUpload(path, formData) {
+  let session = null;
+  try {
+    const { data } = await supabase.auth.getSession();
+    session = data?.session ?? null;
+  } catch {
+    return { ok: false, status: 0, body: { error: 'Could not read session.' } };
+  }
+  if (!session?.access_token) {
+    return { ok: false, status: 401, body: { error: 'Sign-in required' } };
+  }
+
+  try {
+    const res = await fetchWithTimeout(path, {
+      method:  'POST',
+      headers: { Authorization: `Bearer ${session.access_token}` },
+      body:    formData,
+    });
+    const body = await res.json().catch(() => ({}));
+    return { ok: res.ok, status: res.status, body };
+  } catch (err) {
+    return networkErrorEnvelope(err);
+  }
+}
+
+/**
  * Same envelope, but does not require a session. Used by the public
  * /api/auth/register, /api/auth/login, and /api/auth/forgot-password
  * routes that establish a session in the first place, and /api/driver/apply
