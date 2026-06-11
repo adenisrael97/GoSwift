@@ -134,7 +134,7 @@ export function applyAsDriver(payload) {
  * POST /api/driver/documents — upload KYC files to the private bucket.
  *
  * @param {{ license?: File, nin_doc?: File, particulars?: File }} files
- * @returns {Promise<{ ok, status, body: { licenseUrl, ninDocUrl, particularsUrl } }>}
+ * @returns {Promise<{ ok: boolean, status: number, body: { licenseUrl?: string, ninDocUrl?: string, particularsUrl?: string, error?: string } }>}
  */
 export function uploadDriverDocuments(files) {
   const fd = new FormData();
